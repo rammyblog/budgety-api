@@ -16,10 +16,19 @@ export class BankService {
     });
   }
 
-  findBank(id: number) {
+  findBankById(id: number, userId: number) {
     return this.prisma.bank.findFirst({
       where: {
         id,
+        userId,
+      },
+    });
+  }
+
+  findBanks(userId: number) {
+    return this.prisma.bank.findMany({
+      where: {
+        userId,
       },
     });
   }
