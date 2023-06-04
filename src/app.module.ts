@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 
+import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
-import { JwtModule } from '@nestjs/jwt';
-import { ConfigModule } from '@nestjs/config';
+import { BankModule } from './bank/bank.module';
 
 @Module({
   imports: [
@@ -12,6 +12,7 @@ import { ConfigModule } from '@nestjs/config';
     }),
     AuthModule,
     PrismaModule,
+    BankModule,
   ],
   controllers: [],
   providers: [],
