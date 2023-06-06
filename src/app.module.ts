@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { BankModule } from './bank/bank.module';
+import { PaystackModule } from './lib/paystack/paystack.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { BankModule } from './bank/bank.module';
     AuthModule,
     PrismaModule,
     BankModule,
+    PaystackModule,
   ],
   controllers: [],
   providers: [],
