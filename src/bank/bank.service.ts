@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { PaystackService } from '../lib/paystack/paystack.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateBankDto } from './dto';
-import { User } from '@prisma/client';
-import { PaystackService } from '../lib/paystack/paystack.service';
 
 @Injectable()
 export class BankService {

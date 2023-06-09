@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Budget" ALTER COLUMN "balance" DROP NOT NULL,
+ALTER COLUMN "status" SET DEFAULT 'ACTIVE';

@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { BankModule } from './bank/bank.module';
 import { PaystackModule } from './lib/paystack/paystack.module';
+import { BudgetModule } from './budget/budget.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { PaystackModule } from './lib/paystack/paystack.module';
     PrismaModule,
     BankModule,
     PaystackModule,
+    BudgetModule,
   ],
   controllers: [],
   providers: [],
