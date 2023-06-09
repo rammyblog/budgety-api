@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import { BudgetService } from '../budget/budget.service';
+import { PaystackService } from '../lib/paystack/paystack.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { PaystackService } from 'src/lib/paystack/paystack.service';
 
 @Injectable()
 export class PaymentService {
   constructor(
     private prisma: PrismaService,
     private paystackService: PaystackService,
+    private budgetService: BudgetService,
   ) {}
 
   async initTransactionService(
@@ -34,5 +36,22 @@ export class PaymentService {
       authorization_url: data.authorization_url,
       reference: data.reference,
     };
+  }
+
+  async paystackWebhook(body) {
+    const paymentObj = await this.prisma.payment.findUnique({
+      where: { reference: body.reference },
+    });
+    if (body.status === 'success') {
+      // activate budget
+    }
+    this.prisma.payment.update({
+      where: {
+        id: paymentObj.id,
+      },
+      data: {
+        status: body.status,
+      },
+    });
   }
 }

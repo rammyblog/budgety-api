@@ -56,4 +56,21 @@ export class BudgetService {
     const amount = String(budget.amount * 100);
     return this.paymentService.initTransactionService(budgetId, userId, amount);
   }
+
+  async activateBudget(budgetId: number) {
+    const { id } = await this.prisma.budget.findUnique({
+      where: {
+        id: budgetId,
+      },
+    });
+
+    this.prisma.budget.update({
+      where: {
+        id,
+      },
+      data: {
+        status: 'ACTIVE',
+      },
+    });
+  }
 }

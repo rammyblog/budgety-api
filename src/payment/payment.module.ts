@@ -1,10 +1,11 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { PaymentController } from './payment.controller';
-import { PaystackModule } from 'src/lib/paystack/paystack.module';
+import { PaystackModule } from '../lib/paystack/paystack.module';
+import { BudgetModule } from '../budget/budget.module';
 
 @Module({
-  imports: [PaystackModule],
+  imports: [forwardRef(() => BudgetModule), PaystackModule],
   providers: [PaymentService],
   controllers: [PaymentController],
   exports: [PaymentService],

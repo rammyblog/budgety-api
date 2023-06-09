@@ -72,7 +72,7 @@ model Payment{
     userId Int
     budget   Budget   @relation(fields: [budgetId], references: [id], onDelete: Cascade)
     budgetId Int
-    reference String
+    reference String @unique
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     status PaymentStatus @default(PENDING)
