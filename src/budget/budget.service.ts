@@ -1,10 +1,14 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateBudgetDto } from './dto';
+import { PaymentService } from 'src/payment/payment.service';
 
 @Injectable()
 export class BudgetService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private paymentService: PaymentService,
+  ) {}
 
   async createBudget(userId: number, dto: CreateBudgetDto) {
     const totalBudgetItemsAmount = dto.budgetItems.reduce(
@@ -41,5 +45,15 @@ export class BudgetService {
         budgetItems: true,
       },
     });
+  }
+
+  async payForBudget(userId: number, budgetId: number) {
+    const budget = await this.prisma.budget.findUnique({
+      where: {
+        id: budgetId,
+      },
+    });
+    const amount = String(budget.amount * 100);
+    return this.paymentService.initTransactionService(budgetId, userId, amount);
   }
 }

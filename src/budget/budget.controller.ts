@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { BudgetService } from './budget.service';
 import { JwtAuthGuard } from '../auth/guards';
 import { GetUser } from '../auth/decorator';
@@ -17,5 +25,13 @@ export class BudgetController {
   @Get()
   fetchBudgets(@GetUser('id') userId: number) {
     return this.budgetService.fetchBudgets(userId);
+  }
+
+  @Post(':id')
+  payForBudget(
+    @GetUser('id') userId: number,
+    @Param('id', ParseIntPipe) budgetId: number,
+  ) {
+    return this.budgetService.payForBudget(userId, budgetId);
   }
 }

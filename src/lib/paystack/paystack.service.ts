@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { VerifyAccountNumberDto } from './dto';
-import { IVerifyAccountNumber } from './interface';
+import { VerifyAccountNumberDto, initTransactionDto } from './dto';
+import { IInitTransaction, IVerifyAccountNumber } from './interface';
 import { HttpService } from '@nestjs/axios';
 import { catchError, firstValueFrom } from 'rxjs';
 import { AxiosError } from 'axios';
@@ -32,7 +32,24 @@ export class PaystackService {
         .pipe(
           catchError((error: AxiosError) => {
             this.logger.error(error.response.data);
-            throw new BadRequestException('An Error Occured');
+            throw new BadRequestException('An Error occurred');
+          }),
+        ),
+    );
+    return data;
+  }
+
+  async initTransaction(dto: initTransactionDto): Promise<IInitTransaction> {
+    const headers = { Authorization: `Bearer ${this.secretKey}` };
+    const { data } = await firstValueFrom(
+      this.httpService
+        .post<IInitTransaction>(`${this.baseUrl}/transaction/initialize`, dto, {
+          headers,
+        })
+        .pipe(
+          catchError((error: AxiosError) => {
+            this.logger.error(error.response.data);
+            throw new BadRequestException('An Error occurred');
           }),
         ),
     );
