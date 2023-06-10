@@ -89,7 +89,7 @@ export class BudgetService {
     });
   }
 
-  // @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
   // @Interval(10000)
   async fetchBudgetsForProcessing() {
     // fetch all budgets

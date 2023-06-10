@@ -1,9 +1,7 @@
-import { Processor } from '@nestjs/bullmq';
-
 import { Job } from 'bull';
 import { BudgetService } from './budget.service';
 import { Budget } from '@prisma/client';
-import { Process } from '@nestjs/bull';
+import { Process, Processor } from '@nestjs/bull';
 
 @Processor('budgets')
 export class BudgetProcessor {
