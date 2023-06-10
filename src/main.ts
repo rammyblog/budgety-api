@@ -1,11 +1,10 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
-import { Queue } from 'bull';
-import { ExpressAdapter } from '@bull-board/express';
 import { createBullBoard } from '@bull-board/api';
 import { BullAdapter } from '@bull-board/api/bullAdapter';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ExpressAdapter } from '@bull-board/express';
+import { ValidationPipe } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { Queue } from 'bull';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,16 +13,6 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
-
-  // const options = new DocumentBuilder()
-  //   .setTitle('Cats example')
-  //   .setDescription('The cats API description')
-  //   .setVersion('1.0')
-  //   .addTag('cats')
-  //   .addBearerAuth()
-  //   .build();
-  // const document = SwaggerModule.createDocument(app, options);
-  // SwaggerModule.setup('swagger', app, document);
   // Setup BullBoard UI
   const budgetsQueue = app.get<Queue>('BullQueue_budgets');
   const serverAdapter = new ExpressAdapter();
