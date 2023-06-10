@@ -4,7 +4,7 @@ import { BudgetController } from './budget.controller';
 import { PaymentModule } from 'src/payment/payment.module';
 
 @Module({
-  imports: [PaymentModule],
+  imports: [forwardRef(() => PaymentModule)],
   providers: [BudgetService],
   controllers: [BudgetController],
   exports: [BudgetService],

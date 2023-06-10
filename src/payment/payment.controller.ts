@@ -23,7 +23,7 @@ export class PaymentController {
       .digest('hex');
     if (hash === paystackHeader) {
       if (body.event === 'charge.success') {
-        this.paymentService.paystackWebhook(body);
+        this.paymentService.paystackWebhook(body.data);
       }
       return;
     }

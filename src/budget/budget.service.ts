@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  forwardRef,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateBudgetDto } from './dto';
 import { PaymentService } from 'src/payment/payment.service';
@@ -7,6 +12,7 @@ import { PaymentService } from 'src/payment/payment.service';
 export class BudgetService {
   constructor(
     private prisma: PrismaService,
+    @Inject(forwardRef(() => PaymentService))
     private paymentService: PaymentService,
   ) {}
 
@@ -64,7 +70,7 @@ export class BudgetService {
       },
     });
 
-    this.prisma.budget.update({
+    return this.prisma.budget.update({
       where: {
         id,
       },

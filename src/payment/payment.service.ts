@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { BudgetService } from '../budget/budget.service';
 import { PaystackService } from '../lib/paystack/paystack.service';
 import { PrismaService } from '../prisma/prisma.service';
@@ -8,6 +8,7 @@ export class PaymentService {
   constructor(
     private prisma: PrismaService,
     private paystackService: PaystackService,
+    @Inject(forwardRef(() => BudgetService))
     private budgetService: BudgetService,
   ) {}
 
@@ -42,10 +43,12 @@ export class PaymentService {
     const paymentObj = await this.prisma.payment.findUnique({
       where: { reference: body.reference },
     });
+    console.log(body)
     if (body.status === 'success') {
       // activate budget
+      await this.budgetService.activateBudget(paymentObj.budgetId);
     }
-    this.prisma.payment.update({
+    return this.prisma.payment.update({
       where: {
         id: paymentObj.id,
       },

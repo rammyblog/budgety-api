@@ -75,14 +75,14 @@ model Payment{
     reference String @unique
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    status PaymentStatus @default(PENDING)
+    status PaymentStatus @default(pending)
 
 }
 
 enum PaymentStatus {
-  SUCCESS
-  FAILED
-  PENDING
+  success
+  failed
+  pending
 }
 
 enum BudgetStatus {
