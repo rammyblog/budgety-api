@@ -2,6 +2,7 @@ import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { BudgetService } from '../budget/budget.service';
 import { PaystackService } from '../lib/paystack/paystack.service';
 import { PrismaService } from '../prisma/prisma.service';
+import { Bank } from '@prisma/client';
 
 @Injectable()
 export class PaymentService {
@@ -43,7 +44,7 @@ export class PaymentService {
     const paymentObj = await this.prisma.payment.findUnique({
       where: { reference: body.reference },
     });
-    console.log(body)
+    console.log(body);
     if (body.status === 'success') {
       // activate budget
       await this.budgetService.activateBudget(paymentObj.budgetId);
@@ -56,5 +57,24 @@ export class PaymentService {
         status: body.status,
       },
     });
+  }
+
+  async payToBank(bank: Bank, amount) {
+    const createRecipient = await this.paystackService.createRecipient({
+      type: 'NUBAN',
+      name: bank.accountName,
+      account_number: bank.accountNumber,
+      bank_code: bank.code,
+      currency: 'NGN',
+    });
+
+    // Initiate Transfer
+    // await this.paystackService.transfer({
+    //   source: 'balance',
+    //   reason: 'Budget',
+    //   amount,
+    //   recipient: createRecipient.data.recipient_code,
+    // });
+    return createRecipient;
   }
 }

@@ -7,12 +7,22 @@ import { BankModule } from './bank/bank.module';
 import { PaystackModule } from './lib/paystack/paystack.module';
 import { BudgetModule } from './budget/budget.module';
 import { PaymentModule } from './payment/payment.module';
+import { BullModule } from '@nestjs/bull';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    ScheduleModule.forRoot(),
+    BullModule.forRoot({
+      redis: {
+        host: 'localhost',
+        port: 6379,
+      },
+    }),
+
     AuthModule,
     PrismaModule,
     BankModule,

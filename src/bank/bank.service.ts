@@ -34,7 +34,7 @@ export class BankService {
   }
 
   findBanks(userId: number) {
-    return this.prisma.bank.findMany({
+    return this.prisma.bank.findFirst({
       where: {
         userId,
       },

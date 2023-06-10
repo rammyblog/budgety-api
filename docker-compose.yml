@@ -10,3 +10,9 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: budgety
+
+  redis:
+    image: arm64v8/redis:alpine
+    container_name: redis-container
+    ports:
+      - '127.0.0.1:6379:6379'

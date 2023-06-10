@@ -7,5 +7,6 @@ import { PaystackModule } from '../lib/paystack/paystack.module';
   imports: [PaystackModule],
   controllers: [BankController],
   providers: [BankService],
+  exports: [BankService],
 })
 export class BankModule {}

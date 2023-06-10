@@ -1,7 +1,17 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { VerifyAccountNumberDto, initTransactionDto } from './dto';
-import { IInitTransaction, IVerifyAccountNumber } from './interface';
+import {
+  CreateRecipientDto,
+  TransferDto,
+  VerifyAccountNumberDto,
+  initTransactionDto,
+} from './dto';
+import {
+  ICreateRecipient,
+  IInitTransaction,
+  ITransfer,
+  IVerifyAccountNumber,
+} from './interface';
 import { HttpService } from '@nestjs/axios';
 import { catchError, firstValueFrom } from 'rxjs';
 import { AxiosError } from 'axios';
@@ -44,6 +54,40 @@ export class PaystackService {
     const { data } = await firstValueFrom(
       this.httpService
         .post<IInitTransaction>(`${this.baseUrl}/transaction/initialize`, dto, {
+          headers,
+        })
+        .pipe(
+          catchError((error: AxiosError) => {
+            this.logger.error(error.response.data);
+            throw new BadRequestException('An Error occurred');
+          }),
+        ),
+    );
+    return data;
+  }
+
+  async createRecipient(dto: CreateRecipientDto): Promise<ICreateRecipient> {
+    const headers = { Authorization: `Bearer ${this.secretKey}` };
+    const { data } = await firstValueFrom(
+      this.httpService
+        .post<ICreateRecipient>(`${this.baseUrl}/transferrecipient`, dto, {
+          headers,
+        })
+        .pipe(
+          catchError((error: AxiosError) => {
+            this.logger.error(error.response.data);
+            throw new BadRequestException('An Error occurred');
+          }),
+        ),
+    );
+    return data;
+  }
+
+  async transfer(dto: TransferDto): Promise<ITransfer> {
+    const headers = { Authorization: `Bearer ${this.secretKey}` };
+    const { data } = await firstValueFrom(
+      this.httpService
+        .post<ITransfer>(`${this.baseUrl}/transfer`, dto, {
           headers,
         })
         .pipe(
