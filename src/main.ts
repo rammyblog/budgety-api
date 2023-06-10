@@ -22,6 +22,6 @@ async function bootstrap() {
   });
   serverAdapter.setBasePath('/admin/queue');
   app.use('/admin/queue', serverAdapter.getRouter());
-  await app.listen(3000);
+  await app.listen(8080);
 }
 bootstrap();
