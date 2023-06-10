@@ -94,11 +94,12 @@ export class BudgetService {
   async fetchBudgetsForProcessing() {
     // fetch all budgets
     const budgets = await this.prisma.budget.findMany({
+      where: {
+        status: 'ACTIVE',
+      },
       include: { budgetItems: true },
     });
     budgets.map((_) => this.budgetQueue.add('budgets', _));
-    // console.log(this)
-    this.logger.debug('Called every 10 seconds');
   }
 
   async processIndividualJob(budget: Budget, job: Job<Budget>) {
