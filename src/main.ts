@@ -13,6 +13,7 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
+
   // Setup BullBoard UI
   const budgetsQueue = app.get<Queue>('BullQueue_budgets');
   const serverAdapter = new ExpressAdapter();
