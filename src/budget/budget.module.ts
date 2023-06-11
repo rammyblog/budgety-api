@@ -13,7 +13,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     BullModule.registerQueueAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        url: configService.get('REDIS_URL'),
+        url: configService.get('REDIS_CLOUD_URL'),
         // redis: {
         //   username: configService.get('REDIS_USER'),
         //   password: configService.get('REDIS_PASSWORD'),
